@@ -8,14 +8,35 @@ import {
   Image,
   TouchableOpacity,
   Dimensions,
+  ScrollView,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {Searchbar, Appbar} from 'react-native-paper';
+import {Searchbar} from 'react-native-paper';
+import Carousel from 'react-native-banner-carousel-updated';
+import CartIcon from './CartIcon';
+import ShoppingData from './ShoppingData';
 
 const {height, width} = Dimensions.get('window');
+const bannerHeight = 210;
+const images = [
+  'https://images-eu.ssl-images-amazon.com/images/G/31/img21/Fashion/Gateway/Clearance_Store_25thMarch/Clearance-PC-1500x600._CB656852662_.jpg',
+  'https://images-eu.ssl-images-amazon.com/images/G/31/AmazonVideo/2021/X-site/Multititle/Feb/EN/1500x600_Hero-Tall_NP._CB658235929_.jpg',
+  'https://images-eu.ssl-images-amazon.com/images/G/31/img21/1499store/2021/Feb/Hindi/Header_1500x600eng._CB660976519_.jpg',
+];
 const MainScreen = () => {
   const navigation = useNavigation();
+
+  const renderImages = (image, index) => {
+    return (
+      <View key={index}>
+        <Image
+          style={{width: width, marginTop: 0.2, height: bannerHeight}}
+          source={{uri: image}}
+        />
+      </View>
+    );
+  };
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -47,6 +68,7 @@ const MainScreen = () => {
           />
         </View>
       ),
+      headerRight: () => <CartIcon />,
     });
   }, []);
 
@@ -63,18 +85,18 @@ const MainScreen = () => {
     </View>
   );
   return (
-    <>
-      <DrawerLayoutAndroid
-        ref={drawer}
-        drawerWidth={300}
-        drawerPosition={'left'}
-        renderNavigationView={navigationView}
-        style={{
-          flex: 1,
-          zIndex: +1,
-          position: 'relative',
-          height: height,
-        }}>
+    <DrawerLayoutAndroid
+      ref={drawer}
+      drawerWidth={300}
+      drawerPosition={'left'}
+      renderNavigationView={navigationView}
+      style={{
+        flex: 1,
+        zIndex: +1,
+        position: 'relative',
+        height: height,
+      }}>
+      <ScrollView>
         <View
           style={{
             position: 'relative',
@@ -93,8 +115,46 @@ const MainScreen = () => {
             }}
           />
         </View>
-      </DrawerLayoutAndroid>
-    </>
+        <View
+          style={{
+            width: width,
+            height: 30,
+            backgroundColor: '#00cec9',
+            flexDirection: 'row',
+          }}>
+          <Icon
+            name="location-outline"
+            size={15}
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: 5,
+              marginLeft: 5,
+            }}
+          />
+          <Text
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: 4,
+            }}>
+            {' '}
+            Deliver to User - India 324008
+          </Text>
+        </View>
+        <Carousel
+          autoplay
+          autoplayTimeout={5000}
+          loop
+          index={0}
+          pageSize={width}
+          showsPageIndicator={true}
+          pageIndicatorStyle={{backgroundColor: 'white'}}>
+          {images.map((image, index) => renderImages(image, index))}
+        </Carousel>
+        <ShoppingData />
+      </ScrollView>
+    </DrawerLayoutAndroid>
   );
 };
 

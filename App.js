@@ -7,6 +7,8 @@ import 'react-native-gesture-handler';
 import MainScreen from './components/MainScreen';
 import {BreadProvider} from 'material-bread';
 import {Root} from 'native-base';
+import ShoppingData from './components/ShoppingData';
+import CartScreen from './components/CartScreen';
 
 const Stack = createStackNavigator();
 export default function App() {
@@ -21,6 +23,12 @@ export default function App() {
               options={{headerShown: false}}
             />
             <Stack.Screen name="Main" component={MainScreen} />
+            <Stack.Screen
+              name="Data"
+              component={ShoppingData}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen name="Cart" component={CartScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </BreadProvider>
