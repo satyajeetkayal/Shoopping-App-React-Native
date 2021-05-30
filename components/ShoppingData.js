@@ -3,9 +3,12 @@ import {FlatList, StyleSheet, Text, View, Image, Button} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import {Card, CardActions, CardContent, CardMedia} from 'material-bread';
+import {useDispatch} from 'react-redux';
+import {ADD_TO_CART} from '../redux/actionTypes';
 
 const ShoppingData = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -19,6 +22,12 @@ const ShoppingData = () => {
         setData(response.data);
       })
       .catch(e => e.message);
+  };
+  const addItem = item => {
+    dispatch({
+      type: ADD_TO_CART,
+      payload: item,
+    });
   };
   return (
     <View>
@@ -44,7 +53,7 @@ const ShoppingData = () => {
                 <Text style={styles.title}>{item.title}</Text>
 
                 <Text style={styles.price}>{`${item.price} ₹`}</Text>
-                <Button title="Add to cart" />
+                <Button title="Add to cart" onPress={() => addItem(item)} />
               </CardContent>
             </Card>
           </View>

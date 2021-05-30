@@ -9,28 +9,32 @@ import {BreadProvider} from 'material-bread';
 import {Root} from 'native-base';
 import ShoppingData from './components/ShoppingData';
 import CartScreen from './components/CartScreen';
+import {Provider as StoreProvider} from 'react-redux';
+import store from './redux/store';
 
 const Stack = createStackNavigator();
 export default function App() {
   return (
     <Root>
       <BreadProvider>
-        <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen
-              name="Home"
-              component={HomeScreen}
-              options={{headerShown: false}}
-            />
-            <Stack.Screen name="Main" component={MainScreen} />
-            <Stack.Screen
-              name="Data"
-              component={ShoppingData}
-              options={{headerShown: false}}
-            />
-            <Stack.Screen name="Cart" component={CartScreen} />
-          </Stack.Navigator>
-        </NavigationContainer>
+        <StoreProvider store={store}>
+          <NavigationContainer>
+            <Stack.Navigator>
+              <Stack.Screen
+                name="Home"
+                component={HomeScreen}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen name="Main" component={MainScreen} />
+              <Stack.Screen
+                name="Data"
+                component={ShoppingData}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen name="Cart" component={CartScreen} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </StoreProvider>
       </BreadProvider>
     </Root>
   );
