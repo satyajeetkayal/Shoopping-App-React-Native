@@ -16,6 +16,7 @@ import {Searchbar} from 'react-native-paper';
 import Carousel from 'react-native-banner-carousel-updated';
 import CartIcon from './CartIcon';
 import ShoppingData from './ShoppingData';
+import * as Animatable from 'react-native-animatable';
 
 const {height, width} = Dimensions.get('window');
 const bannerHeight = 210;

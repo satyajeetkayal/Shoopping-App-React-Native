@@ -5,6 +5,7 @@ import axios from 'axios';
 import {Card, CardActions, CardContent, CardMedia} from 'material-bread';
 import {useDispatch} from 'react-redux';
 import {ADD_TO_CART} from '../redux/actionTypes';
+import {createAnimatableComponent} from 'react-native-animatable';
 
 const ShoppingData = () => {
   const navigation = useNavigation();
@@ -23,6 +24,7 @@ const ShoppingData = () => {
       })
       .catch(e => e.message);
   };
+
   const addItem = item => {
     dispatch({
       type: ADD_TO_CART,

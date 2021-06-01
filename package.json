@@ -25,6 +25,7 @@
     "react-native-banner-carousel-updated": "^1.2.1",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-link": "^4.1.0",
+    "react-native-pages": "^0.9.0",
     "react-native-paper": "^4.9.1",
     "react-native-razorpay": "^2.2.5",
     "react-native-reanimated": "^2.2.0",
@@ -32,7 +33,8 @@
     "react-native-screens": "^3.3.0",
     "react-native-svg": "^12.1.1",
     "react-native-vector-icons": "^8.1.0",
-    "react-redux": "^7.2.4"
+    "react-redux": "^7.2.4",
+    "rn-swipe-button": "^1.3.4"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

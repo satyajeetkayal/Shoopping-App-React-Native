@@ -11,6 +11,7 @@ import ShoppingData from './components/ShoppingData';
 import CartScreen from './components/CartScreen';
 import {Provider as StoreProvider} from 'react-redux';
 import store from './redux/store';
+import Checkout from './components/Checkout';
 
 const Stack = createStackNavigator();
 export default function App() {
@@ -32,6 +33,11 @@ export default function App() {
                 options={{headerShown: false}}
               />
               <Stack.Screen name="Cart" component={CartScreen} />
+              <Stack.Screen
+                name="Check"
+                component={Checkout}
+                options={{headerShown: false}}
+              />
             </Stack.Navigator>
           </NavigationContainer>
         </StoreProvider>

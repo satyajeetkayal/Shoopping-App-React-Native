@@ -30,6 +30,7 @@ const cartReducer = (state = initialState, action) => {
       return {
         ...state,
         basket: newBasket,
+        total: state.total - action.payload.price,
       };
     }
   }
