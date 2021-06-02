@@ -1,82 +1,199 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Dimensions,
-  Image,
-  FlatList,
-  ScrollView,
-} from 'react-native';
+import {StyleSheet, Text, View, Dimensions, FlatList} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import SwipeButton from 'rn-swipe-button';
 import {useSelector} from 'react-redux';
 
 const {width, height} = Dimensions.get('window');
-const Checkout = () => {
+const Checkout = ({route}) => {
   const CartItems = useSelector(state => state.basket);
+  const Total = useSelector(state => state.total);
+
   return (
     <>
-      <View
-        style={{
-          backgroundColor: 'White',
-          height: 50,
-          justifyContent: 'center',
-          alignSelf: 'center',
-        }}>
-        <Text
-          style={{
-            color: 'black',
-            justifyContent: 'center',
-            fontSize: 20,
-            fontWeight: 'bold',
-          }}>
-          Order Summary
-        </Text>
-      </View>
-      <View style={{height: height / 2.5, position: 'relative'}}>
-        <FlatList
-          data={CartItems}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({item, index}) => (
-            <>
-              <View key={index}>
-                <Text>{`${index + 1}.`}</Text>
-                <Text>{item.title}</Text>
-                <Text>{`${item.price} ₹`}</Text>
-              </View>
-            </>
-          )}
-        />
+      <View style={{backgroundColor: 'white'}}>
         <View
           style={{
-            top: 10,
-            borderStyle: 'dashed',
-            height: 30,
+            backgroundColor: 'white',
+            height: 50,
+            justifyContent: 'center',
+            alignSelf: 'center',
           }}>
-          <Text style={{fontSize: 19, color: 'gray', bottom: 3}}>
-            PRICE DETAILS
+          <Text
+            style={{
+              color: 'black',
+              justifyContent: 'center',
+              fontSize: 20,
+              fontWeight: 'bold',
+            }}>
+            Order Summary
           </Text>
+        </View>
+        <View style={{borderWidth: 0.3, borderStyle: 'dashed'}}></View>
+        <View style={{height: height / 2.5, position: 'relative'}}>
+          <View>
+            {CartItems ? (
+              <View>
+                <FlatList
+                  data={CartItems}
+                  keyExtractor={(item, index) => index.toString()}
+                  renderItem={({item, index}) => (
+                    <>
+                      <View key={index} style={{flexDirection: 'row'}}>
+                        <Text>{`${index + 1}.`} </Text>
+                        <Text
+                          numberOfLines={1.5}
+                          style={{fontSize: 15, fontWeight: 'bold'}}>
+                          {item.title}
+                        </Text>
+                      </View>
+                      <View
+                        style={{
+                          flexDirection: 'column',
+                          justifyContents: 'center',
+                        }}>
+                        <Text
+                          style={{
+                            right: 10,
+                            alignSelf: 'flex-end',
+                            fontWeight: 'bold',
+                            fontSize: 18,
+                          }}>{`${item.price} ₹`}</Text>
+                      </View>
+                    </>
+                  )}
+                />
+              </View>
+            ) : (
+              <View>
+                <FlatList
+                  data={route.params.buyNow}
+                  keyExtractor={(item, index) => index.toString()}
+                  renderItem={({item, index}) => (
+                    <>
+                      <View key={index} style={{flexDirection: 'row'}}>
+                        <Text>{`${index + 1}.`} </Text>
+                        <Text
+                          numberOfLines={1.5}
+                          style={{fontSize: 15, fontWeight: 'bold'}}>
+                          {item.title}
+                        </Text>
+                      </View>
+                      <View
+                        style={{
+                          flexDirection: 'column',
+                          justifyContents: 'center',
+                        }}>
+                        <Text
+                          style={{
+                            right: 10,
+                            alignSelf: 'flex-end',
+                            fontWeight: 'bold',
+                            fontSize: 18,
+                          }}>{`${item.price} ₹`}</Text>
+                      </View>
+                    </>
+                  )}
+                />
+              </View>
+            )}
+          </View>
+
           <View style={{borderWidth: 0.3, borderStyle: 'dashed'}}></View>
-          <Text>
-            {`Price (${CartItems.length} item)`}
-            <Text></Text>
-          </Text>
-          <Text style={{fontSize: 15}}>Total Quantity</Text>
-          <Text>
-            Discount <Text>-</Text>
-          </Text>
-          <Text style={{fontSize: 15}}>
-            Delivery Charges <Text>FREE</Text>
-          </Text>
-          <View style={{borderWidth: 0.2, color: 'gray'}}></View>
-          <Text>
-            Total Amount <Text></Text>
-          </Text>
-          <View style={{borderWidth: 0.3, color: 'gray'}}></View>
+          <View
+            style={{
+              top: 10,
+              borderStyle: 'dashed',
+              height: 30,
+            }}>
+            <Text style={{fontSize: 19, color: 'gray', bottom: 3}}>
+              PRICE DETAILS
+            </Text>
+            <View style={{borderWidth: 0.3, borderStyle: 'dashed'}}></View>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                top: 5,
+              }}>
+              <Text
+                style={
+                  (styles.textStyle, {color: 'black'})
+                }>{`Price (${CartItems.length} item)`}</Text>
+              <Text
+                style={
+                  (styles.textStyle, {color: 'black', fontWeight: 'bold'})
+                }>
+                {`${Total} ₹`}
+              </Text>
+            </View>
+
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                top: 5,
+              }}>
+              <Text style={styles.textStyle}>Discount</Text>
+              <Text
+                style={
+                  (styles.textStyle, {color: 'black', fontWeight: 'bold'})
+                }>
+                --
+              </Text>
+            </View>
+
+            <View
+              style={{
+                justifyContent: 'space-between',
+                flexDirection: 'row',
+                top: 5,
+              }}>
+              <Text style={styles.textStyle}>Delivery Charges</Text>
+              <Text
+                style={
+                  (styles.textStyle, {color: 'black', fontWeight: 'bold'})
+                }>
+                FREE
+              </Text>
+            </View>
+            <View style={{borderWidth: 0.2, color: 'gray', top: 10}}></View>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                top: 10,
+              }}>
+              <Text style={styles.textStyle}>Total Amount</Text>
+              <Text
+                style={
+                  (styles.textStyle, {color: 'black', fontWeight: 'bold'})
+                }>
+                {`${Total} ₹`}
+              </Text>
+            </View>
+
+            <View
+              style={{
+                top: 45,
+                borderStyle: 'dashed',
+              }}>
+              <Text style={{fontSize: 19, color: 'gray', bottom: 3}}>
+                SHIPPING ADDRESS
+              </Text>
+              <View style={{borderWidth: 0.3, borderStyle: 'dashed'}}></View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  height: 100,
+                  top: 10,
+                }}>
+                <Text style={styles.textStyle}>Address</Text>
+              </View>
+            </View>
+          </View>
         </View>
       </View>
-
       <Animatable.View
         style={{
           backgroundColor: 'white',
@@ -99,7 +216,7 @@ const Checkout = () => {
         delay={50}>
         <SwipeButton
           containerStyle={{elevation: 100}}
-          title="Swipe to Checkout"
+          title="Swipe to checkout"
           height={60}
           screenReaderEnabled={true}
           width={width - 15}
@@ -116,6 +233,7 @@ const Checkout = () => {
           railFillBackgroundColor="#7bed9f"
           railFillBorderColor="#7bed9f"
           railStyles={{elevation: 30}}
+          titleStyles={{fontStyle: 'italic'}}
         />
       </Animatable.View>
     </>
@@ -125,8 +243,8 @@ const Checkout = () => {
 export default Checkout;
 
 const styles = StyleSheet.create({
-  cardStyle: {
-    justifyContent: 'flex-start',
-    flexDirection: 'column',
+  textStyle: {
+    fontSize: 15,
+    color: 'black',
   },
 });

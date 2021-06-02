@@ -5,7 +5,6 @@ import axios from 'axios';
 import {Card, CardActions, CardContent, CardMedia} from 'material-bread';
 import {useDispatch} from 'react-redux';
 import {ADD_TO_CART} from '../redux/actionTypes';
-import {createAnimatableComponent} from 'react-native-animatable';
 
 const ShoppingData = () => {
   const navigation = useNavigation();
@@ -31,15 +30,33 @@ const ShoppingData = () => {
       payload: item,
     });
   };
+
+  const lineSeparator = () => {
+    return (
+      <View
+        style={{borderWidth: 0.5, borderColor: 'gray', elevation: 20}}></View>
+    );
+  };
+
   return (
     <View>
       <FlatList
         style={{top: 0}}
         data={data}
+        ItemSeparatorComponent={lineSeparator}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({item, index}) => (
           <View key={index}>
-            <Card>
+            <Card
+              onPress={() =>
+                navigation.navigate('Item', {
+                  title: item.title,
+                  image: item.image,
+                  description: item.description,
+                  price: item.price,
+                  id: item.id,
+                })
+              }>
               <CardActions rightActionItems={[{name: 'share'}]}></CardActions>
 
               <CardMedia
@@ -55,7 +72,21 @@ const ShoppingData = () => {
                 <Text style={styles.title}>{item.title}</Text>
 
                 <Text style={styles.price}>{`${item.price} ₹`}</Text>
-                <Button title="Add to cart" onPress={() => addItem(item)} />
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'space-evenly',
+                    top: 10,
+                  }}>
+                  <Button title="Add to cart" onPress={() => addItem(item)} />
+                  <Button
+                    onPress={() =>
+                      navigation.navigate('Check', {buyNow: addItem(item)})
+                    }
+                    title="Buy Now"
+                  />
+                </View>
               </CardContent>
             </Card>
           </View>

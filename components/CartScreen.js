@@ -15,7 +15,7 @@ import {useNavigation} from '@react-navigation/native';
 import CartIcon from './CartIcon';
 import {REMOVE_FROM_CART} from '../redux/actionTypes';
 
-const CartScreen = () => {
+const CartScreen = ({route}) => {
   const itemCount = useSelector(state => state.basket);
   const itemTotal = useSelector(state => state.total);
   const navigation = useNavigation();
@@ -24,6 +24,7 @@ const CartScreen = () => {
     navigation.setOptions({
       headerRight: () => <CartIcon />,
       headerTitleAlign: 'center',
+      headerStyle: {backgroundColor: '#81ecec'},
     });
   }, []);
 
@@ -34,12 +35,20 @@ const CartScreen = () => {
     });
   };
 
+  const lineSeparator = () => {
+    return (
+      <View
+        style={{borderWidth: 0.5, borderColor: 'gray', elevation: 20}}></View>
+    );
+  };
+
   return (
     <>
       <View>
         {itemCount.length !== 0 ? (
           <FlatList
             data={itemCount}
+            ItemSeparatorComponent={lineSeparator}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({item, index}) => (
               <View style={{top: 5, flex: 1}} key={index}>
@@ -116,7 +125,8 @@ const CartScreen = () => {
               borderWidth: 0.5,
               elevation: 20,
             }}
-            animation="fadeInUp">
+            animation="fadeInUp"
+            easing="ease">
             <View style={{flex: 2}}>
               <Text
                 style={{
@@ -133,7 +143,7 @@ const CartScreen = () => {
           </Animatable.View>
         )}
         {itemCount.length == 0 && (
-          <Animatable.View animation="fadeInDown">
+          <Animatable.View animation="fadeInDown" easing="ease">
             <View>
               <Text
                 style={{
@@ -143,6 +153,16 @@ const CartScreen = () => {
                 }}>
                 Your cart is empty.
               </Text>
+              <Button
+                onPress={() => navigation.navigate('Main')}
+                style={{
+                  width: 150,
+                  justifyContent: 'center',
+                  alignSelf: 'center',
+                }}
+                mode="outlined">
+                Shop Now
+              </Button>
             </View>
           </Animatable.View>
         )}

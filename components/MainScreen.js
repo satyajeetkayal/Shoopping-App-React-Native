@@ -1,14 +1,14 @@
-import React, {useState, useRef, useLayoutEffect} from 'react';
+import React, {useRef, useLayoutEffect} from 'react';
 import {
   StyleSheet,
   Text,
   View,
-  Button,
   DrawerLayoutAndroid,
   Image,
   TouchableOpacity,
   Dimensions,
   ScrollView,
+  StatusBar,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -16,14 +16,15 @@ import {Searchbar} from 'react-native-paper';
 import Carousel from 'react-native-banner-carousel-updated';
 import CartIcon from './CartIcon';
 import ShoppingData from './ShoppingData';
-import * as Animatable from 'react-native-animatable';
 
 const {height, width} = Dimensions.get('window');
-const bannerHeight = 210;
+const bannerHeight = 250;
 const images = [
   'https://images-eu.ssl-images-amazon.com/images/G/31/img21/Fashion/Gateway/Clearance_Store_25thMarch/Clearance-PC-1500x600._CB656852662_.jpg',
   'https://images-eu.ssl-images-amazon.com/images/G/31/AmazonVideo/2021/X-site/Multititle/Feb/EN/1500x600_Hero-Tall_NP._CB658235929_.jpg',
+  'https://images-eu.ssl-images-amazon.com/images/G/31/img21/Wireless/Xiaomi/Redmi_EVOSeries/Note10Pro/GW/May/D21342631_WLD_Mi_Redmi_Note10Pro_tallhero_1500x600._CB667000819_.jpg',
   'https://images-eu.ssl-images-amazon.com/images/G/31/img21/1499store/2021/Feb/Hindi/Header_1500x600eng._CB660976519_.jpg',
+  'https://images-eu.ssl-images-amazon.com/images/G/31/img21/Wireless/OPPO/BAU_family/D24085877_IN_WLD_OPPO_BAU_DesktopTallHero_1500x600._CB667183621_.jpg',
 ];
 const MainScreen = () => {
   const navigation = useNavigation();
@@ -32,7 +33,13 @@ const MainScreen = () => {
     return (
       <View key={index}>
         <Image
-          style={{width: width, marginTop: 0.2, height: bannerHeight}}
+          style={{
+            width: '100%',
+            marginTop: 0.2,
+            height: bannerHeight,
+            aspectRatio: 1.9,
+            resizeMode: 'cover',
+          }}
           source={{uri: image}}
         />
       </View>
@@ -86,76 +93,79 @@ const MainScreen = () => {
     </View>
   );
   return (
-    <DrawerLayoutAndroid
-      ref={drawer}
-      drawerWidth={300}
-      drawerPosition={'left'}
-      renderNavigationView={navigationView}
-      style={{
-        flex: 1,
-        zIndex: +1,
-        position: 'relative',
-        height: height,
-      }}>
-      <ScrollView>
-        <View
-          style={{
-            position: 'relative',
-            backgroundColor: '#81ecec',
-          }}>
-          <Searchbar
-            placeholder="Search"
-            clearIcon="close"
-            icon="camera"
-            iconColor="black"
+    <>
+      <StatusBar backgroundColor="#81ecec" barStyle="dark-content" />
+      <DrawerLayoutAndroid
+        ref={drawer}
+        drawerWidth={300}
+        drawerPosition={'left'}
+        renderNavigationView={navigationView}
+        style={{
+          flex: 1,
+          zIndex: +1,
+          position: 'relative',
+          height: height,
+        }}>
+        <ScrollView>
+          <View
             style={{
-              height: 40,
-              borderRadius: 5,
-              width: width,
-              elevation: 10,
-            }}
-          />
-        </View>
-        <View
-          style={{
-            width: width,
-            height: 30,
-            backgroundColor: '#00cec9',
-            flexDirection: 'row',
-          }}>
-          <Icon
-            name="location-outline"
-            size={15}
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginTop: 5,
-              marginLeft: 5,
-            }}
-          />
-          <Text
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginTop: 4,
+              position: 'relative',
+              backgroundColor: '#81ecec',
             }}>
-            {' '}
-            Deliver to User - India 324008
-          </Text>
-        </View>
-        <Carousel
-          autoplay
-          autoplayTimeout={5000}
-          loop
-          index={0}
-          pageSize={width}
-          showsPageIndicator={true}
-          pageIndicatorStyle={{backgroundColor: 'white'}}>
-          {images.map((image, index) => renderImages(image, index))}
-        </Carousel>
-        <ShoppingData />
-      </ScrollView>
-    </DrawerLayoutAndroid>
+            <Searchbar
+              placeholder="Search"
+              clearIcon="close"
+              icon="camera"
+              iconColor="black"
+              style={{
+                height: 40,
+                borderRadius: 5,
+                width: width,
+                elevation: 10,
+              }}
+            />
+          </View>
+          <View
+            style={{
+              width: width,
+              height: 30,
+              backgroundColor: '#00cec9',
+              flexDirection: 'row',
+            }}>
+            <Icon
+              name="location-outline"
+              size={15}
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: 5,
+                marginLeft: 5,
+              }}
+            />
+            <Text
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: 4,
+              }}>
+              {' '}
+              Deliver to User - India 324008
+            </Text>
+          </View>
+          <Carousel
+            autoplay
+            autoplayTimeout={5000}
+            loop
+            index={0}
+            pageSize={width}
+            showsPageIndicator={true}
+            pageIndicatorStyle={{backgroundColor: 'white'}}>
+            {images.map((image, index) => renderImages(image, index))}
+          </Carousel>
+          <ShoppingData />
+        </ScrollView>
+      </DrawerLayoutAndroid>
+    </>
   );
 };
 
