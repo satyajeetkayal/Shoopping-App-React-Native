@@ -12,6 +12,7 @@ import {useNavigation} from '@react-navigation/native';
 import CartIcon from './CartIcon';
 import {useDispatch} from 'react-redux';
 import {ADD_TO_CART} from '../redux/actionTypes';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const ItemScreen = ({route}) => {
   const navigation = useNavigation();
@@ -19,7 +20,8 @@ const ItemScreen = ({route}) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <View>
+        <View style={{flexDirection: 'row'}}>
+          <Icon style={{right: 20, top: 20}} name="share-social" size={25} />
           <CartIcon />
         </View>
       ),
@@ -113,7 +115,7 @@ const ItemScreen = ({route}) => {
           <Button
             mode="text"
             style={{height: 100}}
-            onPress={() => alert('click')}>
+            onPress={() => navigation.navigate('Check', {buy: addCart(item)})}>
             BUY NOW
           </Button>
         </View>

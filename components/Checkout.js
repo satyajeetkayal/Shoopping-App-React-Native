@@ -2,12 +2,25 @@ import React from 'react';
 import {StyleSheet, Text, View, Dimensions, FlatList} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import SwipeButton from 'rn-swipe-button';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+import RazorpayCheckout from 'react-native-razorpay';
+import {EMPTY_CART} from '../redux/actionTypes';
+import {useNavigation} from '@react-navigation/native';
 
 const {width, height} = Dimensions.get('window');
 const Checkout = ({route}) => {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
   const CartItems = useSelector(state => state.basket);
   const Total = useSelector(state => state.total);
+  const title = useSelector(state => state.title);
+  const image = useSelector(state => state.image);
+
+  const emptyCart = () => {
+    dispatch({
+      type: EMPTY_CART,
+    });
+  };
 
   return (
     <>
@@ -234,6 +247,37 @@ const Checkout = ({route}) => {
           railFillBorderColor="#7bed9f"
           railStyles={{elevation: 30}}
           titleStyles={{fontStyle: 'italic'}}
+          onSwipeSuccess={() => {
+            var options = {
+              description: `${title}`,
+              image: `${image}`,
+              currency: 'INR',
+              key: 'rzp_test_7z3UCs7ZWbQvTq',
+              amount: `${Total}`,
+              name: 'Checkout',
+              external: {
+                wallets: ['paytm'],
+              },
+              prefill: {
+                email: 'Shopping@outlook.com',
+                contact: '97893920291',
+                name: 'Satyajeet',
+              },
+              theme: {color: '#6c5ce7'},
+            };
+            RazorpayCheckout.open(options)
+              .then(data => {
+                alert(`Success: ${data.razorpay_payment_id}`);
+                emptyCart();
+                navigation.replace('Main');
+              })
+              .catch(error => {
+                alert(`Error: ${error.code} | ${error.description}`);
+              });
+            RazorpayCheckout.onExternalWalletSelection(data => {
+              alert(`External Wallet Selected: ${data.external_wallet} `);
+            });
+          }}
         />
       </Animatable.View>
     </>

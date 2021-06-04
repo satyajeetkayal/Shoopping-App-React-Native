@@ -1,7 +1,15 @@
-import {ADD_TO_CART, REMOVE_FROM_CART} from './actionTypes';
+import {
+  ADD_TO_CART,
+  EMPTY_CART,
+  REMOVE_FROM_CART,
+  SET_USER,
+} from './actionTypes';
 const initialState = {
   basket: [],
   total: 0,
+  user: null,
+  title: '',
+  image: '',
 };
 
 const cartReducer = (state = initialState, action) => {
@@ -12,6 +20,8 @@ const cartReducer = (state = initialState, action) => {
         ...state,
         basket: [...state.basket, action.payload],
         total: state.total + action.payload.price,
+        title: action.payload.title,
+        image: action.payload.image,
       };
     }
 
@@ -31,6 +41,18 @@ const cartReducer = (state = initialState, action) => {
         ...state,
         basket: newBasket,
         total: state.total - action.payload.price,
+      };
+    }
+    case SET_USER: {
+      return {
+        ...state,
+        user: action.user,
+      };
+    }
+    case EMPTY_CART: {
+      return {
+        basket: [],
+        total: 0,
       };
     }
   }

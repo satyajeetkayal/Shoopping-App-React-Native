@@ -1,10 +1,31 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, Text, View, Image, StatusBar} from 'react-native';
 import {Button} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
+import {auth} from '../firebase';
+import {useDispatch} from 'react-redux';
+import {SET_USER} from '../redux/actionTypes';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(authUser => {
+      if (authUser) {
+        dispatch({
+          type: SET_USER,
+          user: authUser,
+        });
+        navigation.replace('Main');
+      } else {
+        dispatch({
+          type: SET_USER,
+          user: null,
+        });
+      }
+    });
+    return unsubscribe;
+  }, []);
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="white" />

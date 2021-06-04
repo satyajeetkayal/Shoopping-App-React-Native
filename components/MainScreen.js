@@ -16,6 +16,8 @@ import {Searchbar} from 'react-native-paper';
 import Carousel from 'react-native-banner-carousel-updated';
 import CartIcon from './CartIcon';
 import ShoppingData from './ShoppingData';
+import {auth} from '../firebase';
+import {Avatar} from 'material-bread';
 
 const {height, width} = Dimensions.get('window');
 const bannerHeight = 250;
@@ -82,15 +84,82 @@ const MainScreen = () => {
 
   const drawer = useRef(null);
   const navigationView = () => (
-    <View style={[styles.container, styles.navigationContainer]}>
-      <Text style={styles.paragraph}>I'm in the Drawer!</Text>
-      <Image
-        style={{height: 100, width: 100, aspectRatio: 2, resizeMode: 'contain'}}
-        source={{
-          uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/1024px-Amazon_logo.svg.png',
-        }}
-      />
-    </View>
+    <>
+      <View style={[styles.container, styles.navigationContainer]}>
+        <Avatar
+          type="image"
+          image={
+            <Image
+              source={{
+                uri: 'https://avatars1.githubusercontent.com/u/12564956?s=460&v=4',
+              }}
+            />
+          }
+          size={64}
+        />
+        <Text
+          style={
+            styles.paragraph
+          }>{`Hey! ${auth?.currentUser?.displayName}`}</Text>
+      </View>
+      <View style={{top: 80}}>
+        <View
+          style={{
+            borderWidth: 0.5,
+            borderColor: 'gray',
+            bottom: 500,
+          }}></View>
+        <TouchableOpacity
+          onPress={() => alert('clicked')}
+          activeOpacity={0.5}
+          style={{
+            flexDirection: 'row',
+            bottom: 490,
+            justifyContent: 'center',
+          }}>
+          <Icon name="albums-outline" size={25} color="gray" />
+          <Text>{'  '}</Text>
+          <Text style={{fontSize: 18, letterSpacing: 1}}>My Orders</Text>
+        </TouchableOpacity>
+
+        <View
+          style={{
+            borderWidth: 0.5,
+            borderColor: 'gray',
+            bottom: 480,
+          }}></View>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Account')}
+          activeOpacity={0.5}
+          style={{
+            flexDirection: 'row',
+            bottom: 470,
+            justifyContent: 'center',
+          }}>
+          <Icon name="person-outline" size={25} color="gray" />
+          <Text>{'  '}</Text>
+          <Text style={{fontSize: 18, letterSpacing: 1}}>My Account</Text>
+        </TouchableOpacity>
+
+        <View
+          style={{
+            borderWidth: 0.5,
+            borderColor: 'gray',
+            bottom: 460,
+          }}></View>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          style={{
+            flexDirection: 'row',
+            bottom: 450,
+            justifyContent: 'center',
+          }}>
+          <Icon name="settings-outline" size={25} color="gray" />
+          <Text>{'  '}</Text>
+          <Text style={{fontSize: 18, letterSpacing: 1}}>Settings</Text>
+        </TouchableOpacity>
+      </View>
+    </>
   );
   return (
     <>
@@ -177,13 +246,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 50,
+    bottom: 200,
   },
   navigationContainer: {
     backgroundColor: '#fff',
   },
   paragraph: {
     padding: 16,
-    fontSize: 15,
+    fontSize: 20,
+    fontStyle: 'italic',
     textAlign: 'center',
   },
 });

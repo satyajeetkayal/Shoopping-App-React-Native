@@ -32,10 +32,7 @@ const ShoppingData = () => {
   };
 
   const lineSeparator = () => {
-    return (
-      <View
-        style={{borderWidth: 0.5, borderColor: 'gray', elevation: 20}}></View>
-    );
+    return <View style={{borderWidth: 0.5, borderColor: 'gray'}}></View>;
   };
 
   return (
@@ -57,7 +54,15 @@ const ShoppingData = () => {
                   id: item.id,
                 })
               }>
-              <CardActions rightActionItems={[{name: 'share'}]}></CardActions>
+              <CardActions
+                rightActionItems={[
+                  {
+                    name: 'share',
+                    onPress: () => {
+                      alert('click');
+                    },
+                  },
+                ]}></CardActions>
 
               <CardMedia
                 image={

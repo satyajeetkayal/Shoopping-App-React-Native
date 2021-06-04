@@ -14,6 +14,8 @@ import store from './redux/store';
 import Checkout from './components/Checkout';
 import LoginScreen from './components/LoginScreen';
 import ItemScreen from './components/ItemScreen';
+import RegisterScreen from './components/RegisterScreen';
+import AccountScreen from './components/AccountScreen';
 
 const Stack = createStackNavigator();
 export default function App() {
@@ -40,8 +42,22 @@ export default function App() {
                 component={Checkout}
                 options={{headerShown: false}}
               />
-              <Stack.Screen name="Login" component={LoginScreen} />
+              <Stack.Screen
+                name="Login"
+                component={LoginScreen}
+                options={{headerShown: false}}
+              />
               <Stack.Screen name="Item" component={ItemScreen} />
+              <Stack.Screen
+                name="Register"
+                component={RegisterScreen}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="Account"
+                component={AccountScreen}
+                options={{headerShown: false}}
+              />
             </Stack.Navigator>
           </NavigationContainer>
         </StoreProvider>
