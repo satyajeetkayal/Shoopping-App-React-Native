@@ -10,13 +10,18 @@ import {
   Dimensions,
 } from 'react-native';
 import * as ImagePicker from 'react-native-image-picker';
-import {Button, ProgressBar, SheetBottom, List, ListItem} from 'material-bread';
+import {ProgressBar, SheetBottom, List, ListItem, Card} from 'material-bread';
+import {TextInput, Button} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {Toast} from 'native-base';
+import {db} from '../firebase';
+import {useNavigation} from '@react-navigation/native';
 
-const AccountScreen = () => {
+const AccountScreen = ({route}) => {
+  const navigation = useNavigation();
   const [image, setImage] = useState();
   const [visible, setVisible] = useState(false);
+  const [address, setAddress] = useState('');
   const onHide = () => setVisible(false);
 
   const cameraPermission = async () => {
@@ -138,11 +143,25 @@ const AccountScreen = () => {
     });
   };
 
+  const changeAddress = async () => {
+    await db
+      .collection('Address')
+
+      .collection('addressUsers')
+      .add({
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        address: address,
+        displayName: auth.currentUser.displayName,
+      });
+
+    setAddress('');
+  };
+
   return (
     <View>
       <Image
         style={{
-          height: Dimensions.get('window').height / 5,
+          height: Dimensions.get('window').height / 4,
           width: Dimensions.get('window').width,
           borderWidth: 0.5,
           top: 2,
@@ -194,6 +213,17 @@ const AccountScreen = () => {
           onPress={cameraPermission}>
           <Icon name="camera-outline" size={20} color="black" />
         </TouchableOpacity>
+      </View>
+
+      <View>
+        <TextInput
+          mode="outlined"
+          label="Address"
+          value={address}
+          onChangeText={text => setAddress(text)}
+          onSubmitEditing={changeAddress}
+        />
+        <Button onPress={changeAddress}>change Address</Button>
       </View>
 
       <SheetBottom

@@ -16,6 +16,7 @@ import LoginScreen from './components/LoginScreen';
 import ItemScreen from './components/ItemScreen';
 import RegisterScreen from './components/RegisterScreen';
 import AccountScreen from './components/AccountScreen';
+import Orders from './components/Orders';
 
 const Stack = createStackNavigator();
 export default function App() {
@@ -58,6 +59,7 @@ export default function App() {
                 component={AccountScreen}
                 options={{headerShown: false}}
               />
+              <Stack.Screen name="Order" component={Orders} />
             </Stack.Navigator>
           </NavigationContainer>
         </StoreProvider>

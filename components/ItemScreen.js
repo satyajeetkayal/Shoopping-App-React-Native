@@ -6,6 +6,7 @@ import {
   Image,
   ScrollView,
   StatusBar,
+  Share,
 } from 'react-native';
 import {Button} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
@@ -21,7 +22,12 @@ const ItemScreen = ({route}) => {
     navigation.setOptions({
       headerRight: () => (
         <View style={{flexDirection: 'row'}}>
-          <Icon style={{right: 20, top: 20}} name="share-social" size={25} />
+          <Icon
+            style={{right: 20, top: 20}}
+            name="share-social"
+            onPress={onShare}
+            size={25}
+          />
           <CartIcon />
         </View>
       ),
@@ -42,6 +48,22 @@ const ItemScreen = ({route}) => {
       type: ADD_TO_CART,
       payload: item,
     });
+  };
+
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        message: `${item.title}, ${item.image}`,
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+        } else {
+        }
+      } else if (result.action === Share.dismissedAction) {
+      }
+    } catch (error) {
+      alert(error.message);
+    }
   };
 
   return (

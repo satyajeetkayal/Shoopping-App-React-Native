@@ -15,10 +15,12 @@ const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const signUser = () => {
-    auth
+  const signUser = async () => {
+    await auth
       .signInWithEmailAndPassword(email, password)
-      .then(authUser => navigation.replace('Main'))
+      .then(authUser => {
+        navigation.replace('Main');
+      })
       .catch(e => alert(e.message));
   };
 

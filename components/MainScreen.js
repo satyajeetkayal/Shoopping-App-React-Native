@@ -18,6 +18,7 @@ import CartIcon from './CartIcon';
 import ShoppingData from './ShoppingData';
 import {auth} from '../firebase';
 import {Avatar} from 'material-bread';
+import {roundToNearestPixel} from 'react-native/Libraries/Utilities/PixelRatio';
 
 const {height, width} = Dimensions.get('window');
 const bannerHeight = 250;
@@ -28,7 +29,7 @@ const images = [
   'https://images-eu.ssl-images-amazon.com/images/G/31/img21/1499store/2021/Feb/Hindi/Header_1500x600eng._CB660976519_.jpg',
   'https://images-eu.ssl-images-amazon.com/images/G/31/img21/Wireless/OPPO/BAU_family/D24085877_IN_WLD_OPPO_BAU_DesktopTallHero_1500x600._CB667183621_.jpg',
 ];
-const MainScreen = () => {
+const MainScreen = ({route}) => {
   const navigation = useNavigation();
 
   const renderImages = (image, index) => {
@@ -82,6 +83,10 @@ const MainScreen = () => {
     });
   }, []);
 
+  const logout = () => {
+    auth.signOut().then(() => navigation.replace('Home'));
+  };
+
   const drawer = useRef(null);
   const navigationView = () => (
     <>
@@ -102,7 +107,7 @@ const MainScreen = () => {
             styles.paragraph
           }>{`Hey! ${auth?.currentUser?.displayName}`}</Text>
       </View>
-      <View style={{top: 80}}>
+      <View style={{top: 100}}>
         <View
           style={{
             borderWidth: 0.5,
@@ -110,7 +115,7 @@ const MainScreen = () => {
             bottom: 500,
           }}></View>
         <TouchableOpacity
-          onPress={() => alert('clicked')}
+          onPress={() => navigation.navigate('Order')}
           activeOpacity={0.5}
           style={{
             flexDirection: 'row',
@@ -158,6 +163,25 @@ const MainScreen = () => {
           <Text>{'  '}</Text>
           <Text style={{fontSize: 18, letterSpacing: 1}}>Settings</Text>
         </TouchableOpacity>
+
+        <View
+          style={{
+            borderWidth: 0.5,
+            borderColor: 'gray',
+            bottom: 440,
+          }}></View>
+        <TouchableOpacity
+          onPress={logout}
+          activeOpacity={0.5}
+          style={{
+            flexDirection: 'row',
+            bottom: 430,
+            justifyContent: 'center',
+          }}>
+          <Icon name="log-out-outline" size={25} color="gray" />
+          <Text>{'  '}</Text>
+          <Text style={{fontSize: 18, letterSpacing: 1}}>Log Out</Text>
+        </TouchableOpacity>
       </View>
     </>
   );
@@ -175,7 +199,7 @@ const MainScreen = () => {
           position: 'relative',
           height: height,
         }}>
-        <ScrollView>
+        <ScrollView nestedScrollEnabled={true}>
           <View
             style={{
               position: 'relative',
@@ -218,7 +242,7 @@ const MainScreen = () => {
                 marginTop: 4,
               }}>
               {' '}
-              Deliver to User - India 324008
+              {`Deliver to ${auth?.currentUser?.displayName} - India 324008`}
             </Text>
           </View>
           <Carousel
@@ -246,14 +270,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 50,
-    bottom: 200,
+    bottom: 190,
   },
   navigationContainer: {
     backgroundColor: '#fff',
   },
   paragraph: {
-    padding: 16,
-    fontSize: 20,
+    padding: 15,
+    fontSize: 19,
+    letterSpacing: 1,
     fontStyle: 'italic',
     textAlign: 'center',
   },

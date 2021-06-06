@@ -4,8 +4,9 @@ import * as Animatable from 'react-native-animatable';
 import SwipeButton from 'rn-swipe-button';
 import {useSelector, useDispatch} from 'react-redux';
 import RazorpayCheckout from 'react-native-razorpay';
-import {EMPTY_CART} from '../redux/actionTypes';
+import {ADD_TO_CART, EMPTY_CART} from '../redux/actionTypes';
 import {useNavigation} from '@react-navigation/native';
+import {db} from '../firebase';
 
 const {width, height} = Dimensions.get('window');
 const Checkout = ({route}) => {
@@ -15,6 +16,7 @@ const Checkout = ({route}) => {
   const Total = useSelector(state => state.total);
   const title = useSelector(state => state.title);
   const image = useSelector(state => state.image);
+  const id = useSelector(state => state.id);
 
   const emptyCart = () => {
     dispatch({

@@ -10,6 +10,7 @@ const initialState = {
   user: null,
   title: '',
   image: '',
+  id: '',
 };
 
 const cartReducer = (state = initialState, action) => {
@@ -22,6 +23,7 @@ const cartReducer = (state = initialState, action) => {
         total: state.total + action.payload.price,
         title: action.payload.title,
         image: action.payload.image,
+        id: action.payload.id,
       };
     }
 
@@ -43,12 +45,7 @@ const cartReducer = (state = initialState, action) => {
         total: state.total - action.payload.price,
       };
     }
-    case SET_USER: {
-      return {
-        ...state,
-        user: action.user,
-      };
-    }
+
     case EMPTY_CART: {
       return {
         basket: [],

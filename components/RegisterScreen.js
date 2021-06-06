@@ -8,7 +8,7 @@ import {
   Dimensions,
 } from 'react-native';
 import {Button, TextInput} from 'react-native-paper';
-import {auth} from '../firebase';
+import {auth, db} from '../firebase';
 import {useNavigation} from '@react-navigation/native';
 
 const RegisterScreen = () => {
@@ -24,10 +24,11 @@ const RegisterScreen = () => {
         authUser.user.updateProfile({
           displayName: name,
         });
-        navigation.replace('Login');
+        navigation.navigate('Main');
       })
       .catch(e => alert(e.message));
   };
+
   return (
     <KeyboardAvoidingView style={styles.container}>
       <Image
@@ -38,28 +39,29 @@ const RegisterScreen = () => {
       />
       <View style={styles.inputContainer}>
         <TextInput
+          label="Full Name"
           mode="outlined"
           theme={{colors: {primary: '#f0c14b'}}}
-          placeholder="Full Name"
           value={name}
           onChangeText={text => setName(text)}
         />
         <TextInput
           mode="outlined"
           theme={{colors: {primary: '#f0c14b'}}}
-          placeholder="Email"
+          label="Email"
           value={email}
           onChangeText={text => setEmail(text)}
         />
         <TextInput
           mode="outlined"
           theme={{colors: {primary: '#f0c14b'}}}
-          placeholder="Password"
+          label="Password"
           value={password}
           onChangeText={text => setPassword(text)}
-          secureTextEntry
           onSubmitEditing={RegisterUser}
+          secureTextEntry
         />
+
         <Button
           onPress={RegisterUser}
           mode="contained"

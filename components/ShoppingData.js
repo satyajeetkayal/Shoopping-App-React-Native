@@ -54,20 +54,10 @@ const ShoppingData = () => {
                   id: item.id,
                 })
               }>
-              <CardActions
-                rightActionItems={[
-                  {
-                    name: 'share',
-                    onPress: () => {
-                      alert('click');
-                    },
-                  },
-                ]}></CardActions>
-
               <CardMedia
                 image={
                   <Image
-                    style={{flex: 1, width: '100%'}}
+                    style={{flex: 1, width: '100%', top: 20}}
                     source={{uri: item.image}}
                     resizeMode="contain"
                   />

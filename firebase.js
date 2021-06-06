@@ -1,25 +1,30 @@
-import firebase from 'firebase';
+import Firebase from 'firebase';
 import 'firebase/auth';
 import 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyDh2ZfUN_TKRwWomoTVnvsoyTXLsDlZfwI',
-  authDomain: 'login-app-d0655.firebaseapp.com',
-  projectId: 'login-app-d0655',
-  storageBucket: 'login-app-d0655.appspot.com',
-  messagingSenderId: '244221948375',
-  appId: '1:244221948375:web:54352aa7fcbb3e2680db92',
+  apiKey: 'AIzaSyCcosUVGv4lBXonxiKPywSaloOfwHBMykQ',
+  authDomain: 'shopping-app-f4964.firebaseapp.com',
+  projectId: 'shopping-app-f4964',
+  storageBucket: 'shopping-app-f4964.appspot.com',
+  messagingSenderId: '117134195311',
+  appId: '1:117134195311:web:23102eecfa74e6b16f2b9a',
 };
 
-let app;
+// let app;
 
-if (firebase.apps.length === 0) {
-  app = firebase.initializeApp(firebaseConfig);
-} else {
-  app = firebase.app();
-}
+// if (firebase.apps.length === 0) {
+//   app = firebase.initializeApp(firebaseConfig);
+// } else {
+//   app = firebase.app();
+// }
 
-const db = app.firestore();
-const auth = firebase.auth();
+// const db = app.firestore();
+// const auth = firebase.auth();
 
-export {auth, db};
+// export {auth, db};
+
+const app = Firebase.initializeApp(firebaseConfig);
+
+export const db = app.firestore();
+export const auth = Firebase.auth();
